@@ -3,8 +3,6 @@ const User = require('../models/User.js')
 const bcrypt =require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const Joi = require('joi')
-
 router.post('/register', async (req, res) => {
   //Hash password
   const salt = await bcrypt.genSalt(10)

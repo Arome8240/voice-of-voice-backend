@@ -1,6 +1,13 @@
+const express = require('express');
 const router = require('express').Router()
 const verify = require('./token')
 const multer = require('multer')
+const User = require('../models/User')
+const sharp = require('sharp')
+const fs = require('fs');
+const path = require('path');
+
+const app = express()
 
 const fileFilter = function(req, file, cb) {
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
@@ -28,9 +35,21 @@ router.get('/', verify, (req, res) => {
   User.findOne({_id: req.user})
 })
 
-router.post('/upoad', upload.single('file'), async(req, res) => {
-  res.json({ file: req.file})
+router.post('/upload', upload.single('file'), async(req, res) => {
+  try {
+    await sharp(req.file.path)
+    .resize(300)
+    .toFile(`./static/${req.file.originalname}`)
+
+    fs.unlink(req.file.path, () => {
+      res.json({ file: `./static/${req.file.originalname}`})
+    })
+  } catch (e) {
+    res.status(422).json({ e })
+  }
+ //res.json({ file: req.file})
 })
+
 
 app.use(function(err, req, res, next) {
   if (err.code === 'LIMIT_FILE_TYPES') {

@@ -49,6 +49,7 @@ app.use(cors())
 app.use(hpp())
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, 'static')))
 
 const versionOne = (routeName) => `/api/v1/${routeName}`
 app.use(versionOne('auth'), authRoutes)
