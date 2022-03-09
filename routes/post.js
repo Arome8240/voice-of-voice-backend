@@ -6,22 +6,7 @@ const User = require('../models/User')
 const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path')
-//const aws = require('aws-sdk')
 
-/*aws.config.update({
-  AWSAccessKeyId: 'AKIATLWVXTEP3TWAGQ5I',
-  AWSSecretKey: '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'
-})*/
-
-/*const SESConfig = {
-    accessKeyId: 'AKIATLWVXTEP7FJHOMYR',
-    accessSecretKey: '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',
-    region: "us-east-1",
-}
-aws.config.update(SESConfig);*/
-
-//Access Key ID: AKIATLWVXTEP7FJHOMYR
-//Secret Access Key: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
 
 const app = express()
 
@@ -52,20 +37,14 @@ router.get('/', verify, (req, res) => {
 })
 
 router.post('/upload', upload.single('file'), async(req, res) => {
+  //res.json(req.file.path)
   try {
-    const buffer = await sharp(req.file.path)
-    .resize(300)
-    .toBuffer()
-
-    /*const s3res = await s3.upload({
-      Bucket: 'vot',
-      Key: `${now}-${req.file.originalname}`,
-      Body: buffer,
-      ACL: 'public-read'
-    }).promise()*/
+    await sharp(req.file.path)
+    .resize(300, 300)
+    .toFile(`./static/${req.file.originalname}`)
 
     fs.unlink(req.file.path, () => {
-      res.json({ file: s3res.Location})
+      res.json({ file: `/static/${req.file.originalname}`})
     })
   } catch (e) {
     res.status(422).json({ e })
