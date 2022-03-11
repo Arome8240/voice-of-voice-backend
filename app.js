@@ -43,7 +43,16 @@ app.use(helmet())
 app.use(xss())
 
 // Enable CORS
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  allowedHeaders: 'Content-type',
+  methods: 'GET,POST,PUT,DELETE,OPTIONS'
+}))
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+})
 
 // Prevent http param pollution
 app.use(hpp())
