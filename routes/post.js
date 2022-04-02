@@ -2,6 +2,7 @@ const router = require('express').Router()
 const verify = require('./token')
 const multer = require('multer')
 const User = require('../models/User')
+const Post = require('../models/Post')
 const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path')
@@ -31,7 +32,7 @@ const upload = multer({
 
 const FileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './uploads/audios')
+    cb(null, '../frontend/public/static/audios')
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname)
@@ -70,7 +71,17 @@ router.post('/upload', upload.single('file'), async(req, res) => {
 })
 
 router.post('/audioUpload', audioUploadMiddleware.single('file'), (req, res) => {
-  res.json(req.file)
+  res.json(`/static/audios/${req.file.originalname}`)
+})
+
+router.post('/add', (req, res, next) => {
+  Post.create(req.body, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            res.json(data)
+        }
+    })
 })
 
 module.exports = router
