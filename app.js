@@ -44,7 +44,7 @@ app.use(xss())
 
 // Enable CORS
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:8080, https://voiceoftruth.com.ng',
   allowedHeaders: 'Content-type',
   methods: 'GET,POST,PUT,DELETE,OPTIONS'
 }))
