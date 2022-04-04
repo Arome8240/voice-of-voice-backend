@@ -28,7 +28,26 @@ router.post('/login', async (req, res) => {
   if (!validPass) return res.status(400).send('Invalid password')
 
   const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send(token)
+  //res.header('auth-token', token).send(token)
+  res.status(200).json(token)
+})
+
+router.get('/user', (req, res, next) => {
+  let token = req.headers.token
+  jwt.verify(token, process.env.TOKEN_SECRET,(err, decoded) => {
+    if(err) return res.status(401).json({
+      title: 'unauthorized'
+    })
+    User.findOne({_id: decoded._id}, (err, user) => {
+      if (err) return console.log(err)
+      return res.status(200).json({
+        user: {
+          username: user.username,
+          email: user.email
+        }
+      })
+    })
+  })
 })
 
 module.exports = router
