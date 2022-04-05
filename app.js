@@ -33,6 +33,10 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
+app.use('/', (req, res) => {
+  res.send('hey')
+})
+
 // Sanitize data
 app.use(mongoSanitize())
 
