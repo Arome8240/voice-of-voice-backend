@@ -33,10 +33,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
-app.use('/', (req, res) => {
-  res.send('hey')
-})
-
 // Sanitize data
 app.use(mongoSanitize())
 
@@ -47,22 +43,22 @@ app.use(helmet())
 app.use(xss())
 
 // Enable CORS
-/*app.use(cors({
+app.use(cors({
   origin: 'http://localhost:8080',
-  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
-  methods: 'GET,POST,PUT,DELETE,OPTIONS'
-}))*/
+  credentials:true,         //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}))
 
-const corsOptions = {
-  origin: 'http://localhost:8080',
-  credentials: true,
-  optionSuccessStatus: 200
-}
-app.use(cors(corsOptions))
+app.options('*', cors()) // include before other routes
+
+//app.use(cors())
 
 /*app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
+  res.header('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Authorization')
+  next()
 })*/
 
 // Prevent http param pollution

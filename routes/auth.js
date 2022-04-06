@@ -2,8 +2,16 @@ const router = require('express').Router()
 const User = require('../models/User.js')
 const bcrypt =require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cors = require('cors');
 
 router.post('/register', async (req, res) => {
+  //Cors resolved
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
+
   //Hash password
   const salt = await bcrypt.genSalt(10)
   const hashPassword = await bcrypt.hash(req.body.password, salt)
