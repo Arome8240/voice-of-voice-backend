@@ -40,6 +40,10 @@ router.post('/login', async (req, res) => {
   res.status(200).json(token)
 })
 
+router.get('/login', (req, res) => {
+  res.send('Doings')
+})
+
 router.get('/user', (req, res, next) => {
   let token = req.headers.token
   jwt.verify(token, process.env.TOKEN_SECRET,(err, decoded) => {
