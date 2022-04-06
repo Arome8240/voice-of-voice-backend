@@ -11,6 +11,7 @@ const xss = require('xss-clean')
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')
+const compression = require('compression');
 
 const errorHandler = require('./middleware/error')
 
@@ -38,6 +39,9 @@ app.use(mongoSanitize())
 
 // Set security headers
 app.use(helmet())
+
+//Compression
+app.use(compression())
 
 // Prevent XSS attacks
 app.use(xss())

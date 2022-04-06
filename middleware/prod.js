@@ -1,0 +1,1 @@
+const compression = require('compression');
