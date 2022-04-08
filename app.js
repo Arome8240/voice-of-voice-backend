@@ -48,7 +48,7 @@ app.use(xss())
 
 // Enable CORS
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: '*',
   credentials:true,         //access-control-allow-credentials:true
   optionSuccessStatus:200
 }))
