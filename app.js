@@ -12,6 +12,7 @@ const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')
 const compression = require('compression');
+const throttle = require('express-throttle-bandwidth')
 
 const errorHandler = require('./middleware/error')
 
@@ -29,6 +30,8 @@ const app = express()
 app.use(express.json())
 
 app.use(cookieParser())
+
+app.use(throttle(1024 * 128)) // throttling bandwidth
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
