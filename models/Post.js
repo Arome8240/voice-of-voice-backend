@@ -23,10 +23,16 @@ const postSchema = new Schema({
   views: {
       type: Number,
       default: 0
-    },
-    url: {
+  },
+  url: {
       type: String
-    },
+  },
+  likes: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User'
+    }
+  ],
   date: {
     type: Date,
     default: Date.now

@@ -38,7 +38,6 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15",
-    "sharp": "^0.30.2",
     "throttle": "^1.0.3",
     "xss-clean": "^0.1.1"
   }
