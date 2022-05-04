@@ -41,7 +41,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(mongoSanitize())
 
 // Set security headers
-app.use(helmet())
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginEmbedderPolicy: false,
+}))
 
 //Compression
 app.use(compression())
@@ -57,16 +60,6 @@ app.use(cors({
 }))
 
 app.options('*', cors()) // include before other routes
-
-//app.use(cors())
-
-/*app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Credentials', 'true')
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
-  res.header('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Authorization')
-  next()
-})*/
 
 // Prevent http param pollution
 app.use(hpp())

@@ -11,6 +11,7 @@ router.post('/register', async (req, res) => {
   res.setHeader("Access-Control-Max-Age", "1800");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" );
+  res.setHeader('Cross-Origin-Resource-Policy', 'same-site')
 
   //Hash password
   const salt = await bcrypt.genSalt(10)

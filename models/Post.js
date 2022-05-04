@@ -16,6 +16,9 @@ const postSchema = new Schema({
     type: mongoose.Schema.ObjectId,
       ref: 'User',
   },
+  description: {
+    type: String
+  },
   categories: {
     type: mongoose.Schema.ObjectId,
       ref: 'Category'
