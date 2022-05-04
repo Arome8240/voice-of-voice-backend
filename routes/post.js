@@ -70,29 +70,31 @@ const uploadAudioToS3 = (filename, bucketname, file) => {
 
 const bucket = 'votaudios'
 
-router.get('/', verify, (req, res) => {
+/*router.get('/', verify, (req, res) => {
   res.send(req.user)
   User.findOne({_id: req.user})
+})*/
+
+router.get('/', async (req, res, next) => {
+  try {
+    const foundPost = await Post.find()
+    res.json(foundPost)
+  } catch (e) {
+    res.status(400).send(e.message)
+  }
 })
 
-
 //IMAGE UPLOAD ROUTE
-router.post('/upload', upload.single('file'), (req, res) => {
+router.post('/upload', upload.single('file'), async (req, res) => {
   
-  res.json({file: req.file})
+  //res.json({file: req.file})
 
-  /*if (req.file.mimetype == 'image/jpg' || 'image/png' || 'image/gif') {
-    const filename = req.file.originalname
-    const bucketname = 'votaudios'
-    const file = req.file.buffer
-    const link = await uploadAudioToS3(filename, bucketname, file)
-    console.log('File:', link);
-    res.status(200).json(link.Location)
-  } else if (req.file.mimetype != 'image/jpg' || 'image/png' || 'image/gif') {
-    const error = new Error('wrong file type')
-    error.code = 'LIMIT_FILE_TYPES'
-    res.status(422).json({ error: error.code })
-  }*/
+  const filename = req.file.originalname
+  const bucketname = 'votaudios'
+  const file = req.file.buffer
+  const link = await uploadAudioToS3(filename, bucketname, file)
+  console.log('FILE: ', link);
+  res.json(link.Location)
 })
 
 
@@ -114,14 +116,20 @@ router.post('/audioUpload', uploadsA.single('file'), async (req, res, cb) => {
 
 
 //ADD NEW MESSAGE ROUTE
-router.post('/add', (req, res, next) => {
-  Post.create(req.body, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            res.json(data)
-        }
+router.post('/add', async (req, res, next) => {
+  const post = new Post({
+      title: req.body.title,
+      description: req.body.description,
+      thumbnailUrl: req.body.thumbnailUrl,
+      url: req.body.url
     })
+
+    try {
+      const savedPost = await post.save()
+      res.send(savedPost)
+    } catch (e) {
+      res.status(400).send(e.message)
+    }
 })
 
 //LIKE POST
