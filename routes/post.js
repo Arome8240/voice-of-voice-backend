@@ -6,8 +6,16 @@ const Post = require('../models/Post')
 const formidable = require('formidable')
 const path = require('path'), fs = require('fs')
 const AWS = require('aws-sdk')
+const cloudinary = require('cloudinary')
 
 const MAX_SIZE = 10000000
+
+//CONFIGURE CLOUDINARY
+cloudinary.config({
+  cloud_name: 'dds5vammg',
+  api_key: '669427789829754',
+  api_secret: 'w1cXYLRWah7trmphi_jvH-vE2Ws'
+})
 
 //UPLOAD AUDIO
 const Audiostorage = multer.diskStorage({
