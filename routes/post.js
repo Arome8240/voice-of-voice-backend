@@ -72,6 +72,13 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     res.json(`${process.env.URL}/images/${req.file.originalname}`)
 })
 
+router.get('/arome', verify, (req, res) => {
+  res.json({
+    name: 'Arome.dev',
+    user: req.user
+  })
+})
+
 
 //audioUploadMiddleware.single('file')
 
@@ -102,6 +109,7 @@ router.post('/add', async (req, res, next) => {
 
 //LIKE POST
 router.put('/like', verify, (req, res) => {
+  //res.send(req.body.postId)
   Post.findByIdAndUpdate(req.body.postId, {
     $push:{likes:req.user._id}
   }, {
