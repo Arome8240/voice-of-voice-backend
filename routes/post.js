@@ -55,16 +55,16 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.post('/uploadq', async(req, res, next) => {
-  var form = new formidable.IncomingForm({uploadDir: `${__dirname}/../uploads`});
-  form.parse(req, function (err, fields, files) {
-    //var oldpath = 
-    if (err) {
-      next(err)
-      return
+//Delete Post
+router.delete('/delete/:postId', verify, async (req, res) => {
+  //console.log(req.params.postId)
+  try {
+      const deletePost = await Post.findOne({_id: req.params.postId }).remove()
+      const foundPost = await Post.find()
+      res.send(foundPost)
+    } catch (e) {
+      res.status(400).send(e.message)
     }
-    res.json({files: files.fileToUpload})
-  })
 })
 
 //IMAGE UPLOAD ROUTE
