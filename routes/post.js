@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const verify = require('./token')
+const verify = require('../middleware/token')
 const multer = require('multer')
 const User = require('../models/User')
 const Post = require('../models/Post')
@@ -79,7 +79,6 @@ router.get('/arome', verify, (req, res) => {
   })
 })
 
-
 //audioUploadMiddleware.single('file')
 
 //AUDIO UPLOAD ROUTE
@@ -120,6 +119,39 @@ router.put('/like', verify, (req, res) => {
     } else {
       res.json(result)
     }
+  })
+})
+
+//VIEW COUNTER
+router.post('/views/add', (req, res) => {
+  //console.log(req.body.postId)
+  Post.findById(req.body.postId)
+  .then(post => {
+    console.log(post)
+    post.views = post.views + 1
+    post.save().then((updatedUser) => {
+      res.send(updatedUser)
+    })
+  })
+  .catch(error => {
+    res.send(error)
+  })
+})
+
+//UPDATE POST
+router.post('/update', (req, res) => {
+  console.log(req.body)
+  Post.findById(req.body.postId)
+  .then(post => {
+    //console.log(post)
+    post.title = req.body.title
+    post.description = req.body.description
+    post.save().then((updatedUser) => {
+      res.send(updatedUser)
+    })
+  })
+  .catch(error => {
+    res.send(error)
   })
 })
 
