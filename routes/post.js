@@ -55,6 +55,17 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/popular', async (req, res, next) => {
+  Post.find()
+  .sort('-views')
+  .then(posts => {
+    res.json({posts})
+  })
+  .catch(err => {
+    res.json({error})
+  })
+})
+
 //Delete Post
 router.delete('/delete/:postId', verify, async (req, res) => {
   //console.log(req.params.postId)
