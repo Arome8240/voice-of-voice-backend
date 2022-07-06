@@ -138,7 +138,7 @@ router.post('/views/add', (req, res) => {
   //console.log(req.body.postId)
   Post.findById(req.body.postId)
   .then(post => {
-    console.log(post)
+    //console.log(post)
     post.views = post.views + 1
     post.save().then((updatedUser) => {
       res.send(updatedUser)
@@ -151,7 +151,7 @@ router.post('/views/add', (req, res) => {
 
 //UPDATE POST
 router.post('/update', (req, res) => {
-  console.log(req.body)
+  //console.log(req.body)
   Post.findById(req.body.postId)
   .then(post => {
     //console.log(post)
